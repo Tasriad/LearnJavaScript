@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM Manipulation</title>
+  </head>
+
+  <!-- body tag with id = body -->
+  <body id="body">
+    <!-- unordered list with id and two user defined attributes -->
+    <ul id="ulElement" data-validity="valid" data-power="powerful">
+      <!-- here validity and power are user defined attribute -->
+      <!-- data- is used because if in later updates js adds a built in attribute with the same name there will be no conflict -->
+      <li id="firstList" class="list">First Element</li>
+      <li class="list">Second Element</li>
+      <li class="list">Third Element</li>
+    </ul>
+    
+    <!-- a tabel -->
+    <table border="2">
+      <tr>
+        <td>one</td>
+        <td>two</td>
+      </tr>
+      <tr>
+        <td>three</td>
+        <td>four</td>
+      </tr>
+    </table>
+
+    <!-- a paragraph -->
+    <p id="paragraph">This is a paragraph.</p>
+
+
+    <div class="allDivs">
+      <!-- JS inside the div -->
+      <script>
+        const allDivs = document.getElementsByClassName("allDivs"); //returns a collection
+        const allDivs2 = document.querySelectorAll(".allDivs");
+        console.log(allDivs); // will show 1 element.
+        console.log(allDivs2); // will show 1 element.
+      </script>
+
+    </div>
+
+    <div class="allDivs"></div>
+    <div id="div1">I am writing something!</div>
+
+    <!-- event -->
+    <!-- way 1 -->
+    <button id="B" onclick="alert('yo yo')">Click Me</button>
+    <button id="C">Click me Too</button>
+    <script>
+      //Event handling
+      function callMe(event) {
+        console.log(event.type);
+        console.log(event.currentTarget);
+        console.log(event.clientX);
+        console.log(event.clientY);
+        alert("yo yo too");
+      }
+      function callMe2() {
+        alert("thanks");
+      }
+      //C.onclick = callMe; //way2
+      //way3
+      C.addEventListener("click", callMe);
+      C.addEventListener("click", callMe2);
+      //C.removeEventListener("click",callMe);
+    </script>
+
+    <script>
+      // Root nodes
+
+      console.log(document.documentElement);
+      console.log(document.head);
+      console.log(document.body);
+
+      //Child nodes
+
+      console.log(document.body.childNodes); // will also include inexplicitly used tags like text used for indentation and comments.
+      console.log(document.body.children); // will only include actual used tags.
+
+      console.log(document.body.firstChild); //text
+      console.log(document.body.lastChild); //script
+      console.log(document.body.firstElementChild); //ul
+      console.log(document.body.lastElementChild); //script
+
+      // Traversal
+
+      for (node of document.body.children) {
+        console.log(node); // ul
+        // script
+      }
+
+      //convert to Array
+
+      const childrenOfBody = Array.from(document.body.children);
+      console.log(childrenOfBody);
+
+      // Siblings
+
+      const ulTag = document.body.children[0];
+      console.log(ulTag.nextSibling); //text
+      console.log(ulTag.nextElementSibling); //script
+
+      const firstLi = ulTag.children[0];
+      const secondLi = ulTag.children[1];
+      console.log(secondLi.previousElementSibling); //li
+      console.log(secondLi.previousElementSibling.textContent); // First Element
+
+      // Table DOM manipulation
+
+      const tableTag = document.body.children[1];
+      console.log(tableTag);
+      console.log(tableTag.tBodies[0].rows[0].cells[1].textContent); // there can be explicitly defined multiple bodies inside table.
+      tableTag.tBodies[0].rows[1].cells[0].style = "background-color:yellow";
+
+      // Navigate by id
+
+      console.log(ulElement);
+      ulElement.style = "background-color:pink";
+
+      const pTag = document.getElementById("paragraph");
+      console.log(pTag);
+      pTag.style.backgroundColor = "red";
+
+      // Navigate by class
+
+      listItems = document.getElementsByClassName("list");
+      console.log(listItems);
+
+      // Navigate by tagname
+      table = document.getElementsByTagName("table");
+      console.log(table);
+
+      // querySelector
+
+      //const list = document.querySelectorAll('.list');  //pass class name
+      const list = document.querySelectorAll("#ulElement");
+      console.log(list);
+
+      const lastItems = document.querySelectorAll("ul>li:last-child");
+      console.log(lastItems[0].textContent);
+      const nthItems = document.querySelectorAll("ul>li:nth-child(2)");
+      console.log(nthItems[0].textContent);
+
+      // getElement vs querySelector
+
+      console.log(allDivs); // getElement method is dynamic so updated. will show 2 elements
+      console.log(allDivs2); // querySelector is statuc so not updated.
+      // getElemnt sends reference so it is dynamically changed. querySelector sends value so it is static.
+
+      // accessing attributes
+
+      console.log(ulElement.id); //ulElement
+      console.log(ulElement.dataset);
+      console.log(ulElement.dataset.validity); //valid
+      ulElement.setAttribute("order-placed", "pending");
+      console.log(ulElement.getAttribute("order-placed")); //pending
+      console.log(ulElement.hasAttribute("order-placed")); //true
+      ulElement.removeAttribute("order-placed");
+      console.log(ulElement.hasAttribute("order-placed")); //false
+
+      //Creating,Removing,Updating Node elements
+
+      const newDiv = document.createElement("div");
+      const div1 = document.getElementById("div1");
+      const newText = document.createTextNode("Sup bro!");
+      newDiv.appendChild(newText);
+      //body.append(newDiv); //added last
+      //body.prepend(newDiv); // added first
+      //body.before(newDiv); // just before this tag
+      //body.after(newDiv); //just after this tag
+      div1.replaceWith(newDiv); // replaces
+      div1.remove(); //removes
+
+      //matches,closest,contains
+      let f_list = document.getElementById("firstList");
+      let unordList = document.getElementById("ulElement");
+      // does f_list have classname -> or id ->
+      console.log(f_list.matches(".list")); //true
+      console.log(f_list.matches(".ulist")); //false
+      // returns the closest ancestor matching id or classname
+      console.log(f_list.closest("#body"));
+      // if a parent contains that children
+      console.log(f_list.contains(unordList)); //false
+      console.log(ulElement.contains(f_list)); //true
+
+      // inner and outer html
+      console.log(unordList.innerHTML);
+      console.log(f_list.outerHTML);
+    </script>
+  </body>
+</html>

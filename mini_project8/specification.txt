@@ -1,0 +1,1 @@
+Create a webpage that has a bulb and button.By clicking the button you can turn on and off the bulb.

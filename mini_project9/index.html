@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course Manager</title>
+
+    <!-- Bootstrap CSS link -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <!-- Custom CSS styles-->
+    <style>
+      #addButton {
+        background-color: rgb(166, 227, 166);
+        margin-right: 10px; /* Add some spacing between the Add button and the course name */
+      }
+
+      .remove {
+        background-color: rgb(243, 83, 83);
+      }
+
+      .course-container {
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        justify-content: space-between; /* Align content evenly */
+        margin-bottom: 10px; /* Add spacing between list items */
+        padding: 10px; /* Add padding to the list items */
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- header part -->
+    <header>
+      <!-- navbar from bootstrap -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"
+                >Home <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Dropdown link
+              </a>
+              <div
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- input box and button from bootstrap -->
+      <div class="container mt-5 col-6">
+        <div class="input-group mb-3">
+          <!-- input box -->
+          <input
+            id="textbox"
+            type="text"
+            class="form-control"
+            placeholder="Course Name"
+            aria-label="Course Name"
+            aria-describedby="button-addon2"
+          />
+          <!-- add button -->
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="addButton"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+        <!-- course lists will appear here -->
+        <ul id="listContainer" class="list-group">
+          <li class="list-group-item">Default Course</li>
+        </ul>
+      </div>
+    </main>
+    <script>
+        //add button event
+      let Button = document.getElementById("addButton");
+      Button.addEventListener("click", addCourse);
+
+      // function to add course
+      function addCourse(event) {
+        let currentButton = event.currentTarget; // the add button
+        let currentElement = document.getElementById("textbox"); // the input field
+
+        //create new list
+        let newLi = document.createElement("li");
+        //create its corresponding remove button
+        let newButton = document.createElement("button");
+        // group the newly created list and button
+        newLi.classList.add("list-group-item");
+        newButton.classList.add("remove");
+        // set the course name to list from inputbox
+        newLi.textContent = currentElement.value;
+        newButton.textContent = "Remove";
+        //for each newly added course list and remove button create a container and append .
+        let courseContainer = document.createElement("div");
+        courseContainer.classList.add("course-container");
+        courseContainer.appendChild(newButton);
+        courseContainer.appendChild(newLi);
+        // add the course container 
+        let list_ul = document.getElementById("listContainer");
+        list_ul.appendChild(courseContainer);
+
+        // Add click event to the "Remove" button
+        newButton.addEventListener("click", function () {
+          removeCourse(courseContainer);
+        });
+
+        // Clear the input field after adding the course
+        currentElement.value = "";
+      }
+
+      // Function to remove the course when the "Remove" button is clicked
+      function removeCourse(courseContainer) {
+        let list_ul = document.getElementById("listContainer");
+        list_ul.removeChild(courseContainer);
+      }
+    </script>
+  </body>
+</html>

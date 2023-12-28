@@ -1,0 +1,5 @@
+/* To display the alert after the page has finished rendering, you can use the DOMContentLoaded event to ensure that the JavaScript code inside your script.js file runs only after the HTML content has been fully loaded */
+/* By wrapping your JavaScript code inside the DOMContentLoaded event listener, the code will only execute after the HTML content (including the "Hello world!" paragraph) has been completely loaded. The alert will be shown after the page is rendered. */
+body{
+    background-color: white;
+}
